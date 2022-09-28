@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Inventario.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 
@@ -10,5 +11,7 @@ namespace Inventario.Db
         {
 
         }
+
+        public DbSet<Employee> Employee { get; set; }
     }
 }
