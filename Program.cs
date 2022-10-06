@@ -1,7 +1,5 @@
 using Inventario.Db;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +16,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseMySql(connectionString,
 new MySqlServerVersion(new Version(8, 0, 30))));
 
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,6 +33,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("corsapp");
 
 app.MapControllers();
 
