@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Inventario.Db;
 using Inventario.Models;
@@ -24,23 +29,10 @@ namespace Inventario_BackEnd.Controllers
         }
 
         // GET: api/Employees/5
-        [HttpGet("/Users/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Employee>> GetEmployee(int id)
         {
             var employee = await _context.Employee.FindAsync(id);
-
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return employee;
-        }
-
-        [HttpGet("{cpf}")]
-        public async Task<ActionResult<Employee>> GetEmployeeByCpf(string cpf)
-        {
-            var employee = await _context.Employee.FirstOrDefaultAsync(u => u.CPF == cpf);
 
             if (employee == null)
             {
@@ -76,17 +68,6 @@ namespace Inventario_BackEnd.Controllers
                 {
                     throw;
                 }
-            }
-
-            return NoContent();
-        }
-
-        [HttpPut("{cpf}")]
-        public async Task<IActionResult> PutEmployeeCpf(string cpf, Employee employee)
-        {
-            if (cpf != employee.CPF)
-            {
-                return BadRequest();
             }
 
             return NoContent();
